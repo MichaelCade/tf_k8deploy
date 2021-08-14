@@ -1,0 +1,3 @@
+azureTenantId = ""
+azureClientId = ""
+azureClientSecret = ""

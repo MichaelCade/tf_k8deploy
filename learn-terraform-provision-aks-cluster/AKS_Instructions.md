@@ -50,7 +50,7 @@ cd "Azure AKS"
 now we can run the following to create a new namespace and deploy K10 via a helm chart. 
 
 ```
-terraform apply 
+ terraform apply -var-file="secrets.tfvars"
 ```
 
 ```

@@ -1,0 +1,60 @@
+name: 'GKE CI'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./learn-terraform-provision-gke-cluster
+
+    # 1. Checkout the repository to the GitHub Actions runner
+    # 2. Install terraform CLI
+    # 3. Run terraform init
+    # 4. Run terraform validate
+    # 5. Run terraform status
+    # 6. Run terraform plan
+    # 7. Conditionally run terraform apply (if merged to main)
+    # 8. Conditionally run terraform destroy (if branch contains destroy)
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Init
+      run: terraform init
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Terraform Validate
+      run: terraform validate
+
+    - name: Terraform Status
+      run: terraform status
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Terraform Plan
+      run: terraform plan
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply -auto-approve
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Terraform Destroy
+      if: contains(github.ref, "destroy")
+      run: terraform destroy -auto-approve

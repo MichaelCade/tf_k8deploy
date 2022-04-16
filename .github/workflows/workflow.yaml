@@ -57,3 +57,5 @@ jobs:
     - name: Terraform Destroy
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: test -f destroy.tf && terraform destroy -auto-approve && git rm destroy.tf && git push || echo Skipping
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}

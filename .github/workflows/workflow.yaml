@@ -28,15 +28,13 @@ jobs:
     - name: Debug
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-        GITHUB_EVENT: ${{ toJson(github.event )}}
       run: |
         echo "$GITHUB_EVENT_NAME"
         echo "$GITHUB_BASE_REF"
         echo "$GITHUB_HEAD_REF"
         echo "$GITHUB_REF"
-        echo "$GITHUB_CONTEXT"
         echo "$GITHUB_EVENT_PULL_REQUEST_HEAD_REF"
-        echo "$GITHUB_EVENT"
+        echo "$GITHUB_CONTEXT"
 
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
@@ -51,11 +49,14 @@ jobs:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
     - name: Terraform Apply
-      if: github.base_ref == 'main' && github.event_name == 'push' && startsWith(github.head_ref, 'destroy') != true 
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && hashFiles('destroy.tf') == ''
       run: terraform apply -auto-approve
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
     - name: Terraform Destroy
-      if: github.base_ref == 'main' && github.event_name == 'push' && startsWith(github.head_ref, 'destroy') == true
-      run: terraform destroy -auto-approve
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && hashFiles('destroy.tf') != ''
+      run: |
+        terraform destroy -auto-approve
+        git rm destroy.tf
+        git push

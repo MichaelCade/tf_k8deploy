@@ -49,6 +49,8 @@ Conditions:
   * Region
   * Service Account
   * Storage
+  * Compute Engine API
+  * Kubernetes Engine API
 * `gcloud`
 * `kubectl`
 * `terraform`

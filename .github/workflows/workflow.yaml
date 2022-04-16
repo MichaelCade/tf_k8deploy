@@ -28,12 +28,15 @@ jobs:
     - name: Debug
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_EVENT: ${{ toJson(github.event )}}
       run: |
         echo "$GITHUB_EVENT_NAME"
         echo "$GITHUB_BASE_REF"
         echo "$GITHUB_HEAD_REF"
         echo "$GITHUB_REF"
         echo "$GITHUB_CONTEXT"
+        echo "$GITHUB_EVENT_PULL_REQUEST_HEAD_REF"
+        echo "$GITHUB_EVENT"
 
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1

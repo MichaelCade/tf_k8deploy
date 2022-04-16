@@ -26,10 +26,14 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Debug
+      # Merge push to main
+      # - GITHUB_BASE_REF is empty
+      # - GITHUB_HEAD_REF is empty
       run: |
         echo "$GITHUB_EVENT_NAME"
         echo "$GITHUB_BASE_REF"
         echo "$GITHUB_HEAD_REF"
+        echo "$GITHUB_REF"
 
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1

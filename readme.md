@@ -144,6 +144,8 @@ terraform {
 
 9. Merge your pull request to `main` branch to perform `terraform apply`.
 
+> Warning: The MR automatically sets the target branch of the upstream's repo, i.e. the repo that you forked from. You need to change the target to your repo's `main` branch.
+
 ## Step 4. Destroy an Existing GKE Cluster
 
 1. Navigate to your GitHub repo folder and create a new git branch.

@@ -136,11 +136,13 @@ terraform {
 
 > Terraform stores a `default.state` file under the prefix GCP_STORAGE_PREFIX in the GCP_STORAGE_NAME.
 
-6. Add and commit the files, then `git push --set-upstream origin BRANCH_NAME`
+6. If the `destroy.tf` file exists then `git rm destroy.tf`. Otherwise, make any changes to the `README.md` file.
 
-7. Navigate to your GitHub console and create a merge request. This will trigger a GitHub Actions CI.
+7. Add and commit the files, then `git push --set-upstream origin BRANCH_NAME`
 
-8. Merge your pull request to `main` branch to perform `terraform apply`.
+8. Navigate to your GitHub console and create a merge request. This will trigger a GitHub Actions CI.
+
+9. Merge your pull request to `main` branch to perform `terraform apply`.
 
 ## Step 4. Destroy an Existing GKE Cluster
 
@@ -159,8 +161,6 @@ git checkout -b BRANCH_NAME
 5. Navigate to your GitHub console and create a merge request. This will trigger a GitHub Actions CI.
 
 6. Merge your pull request to `main` branch to perform `terraform destroy`.
-
-> If successful, the GitHub Actions CI will remove the `destroy.tf` file.
 
 ---
 # Deploy a New Cluster with your Workstation

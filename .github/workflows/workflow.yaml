@@ -59,7 +59,3 @@ jobs:
       run: test -f destroy.tf && terraform destroy -auto-approve || echo Skipping
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-
-    - name: CI Clean
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: test -f destroy.tf && git rm destroy.tf && git commit -m "CI Clean" && git push || echo Skipping
